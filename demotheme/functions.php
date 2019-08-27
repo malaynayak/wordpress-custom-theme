@@ -47,7 +47,7 @@ function demotheme_settings() {
     // Add tag metabox to page
     register_taxonomy_for_object_type('post_tag', 'page'); 
     // Add category metabox to page
-    register_taxonomy_for_object_type('category', 'page');  
+    register_taxonomy_for_object_type('category', 'page'); 
 }
  // Add to the admin_init hook of your theme functions.php file 
 add_action( 'init', 'demotheme_settings' );
@@ -268,6 +268,49 @@ function demotheme_footer_callout($wp_customize) {
 }
 add_action('customize_register', 'demotheme_footer_callout');
 
+// Custom post type
+function  demotheme_custom_post_type() {
+    $labels = [
+        'name' => 'Portfolio',
+        'singular_name' => 'Portfolio',
+        'add_new_item' => 'New Portfolio',
+        'add_new' => 'New Portfolio',
+        'all_items' => 'Portfolios',
+        'edit_item' => 'Edit Portfolio',
+        'new_item' => 'New Portfolio',
+        'view_item' => 'View Portfolio',
+        'search_item' => 'Search Portfolio',
+        'not_found' => 'No items found',
+        'not_found_in_trash' => 'No items found in trash',
+        'parent_item_colon' => 'Parent item'
+    ];
 
+    $args = [
+        'labels' => $labels,
+        'public' => TRUE,
+        'has_archive' => TRUE,
+        'publicly_queryable' => TRUE,
+        'query_var' => TRUE,
+        'rewrite' => TRUE,
+        'capability_type' => 'post',
+        'hierarchical' =>  FALSE,
+        'show_in_rest' => TRUE,
+        'supports' => [
+            'title',
+            'editor',
+            'excerpt',
+            'thumbnail',
+            'revision'
+        ],
+        'taxonomies' => [
+            'category',
+            'post_tag'
+        ],
+        'menu_position' => 5,
+        'exclude_from_search' => FALSE
+    ];
+    register_post_type('portfolio', $args);
+}
+add_action('init', 'demotheme_custom_post_type');
 
 ?>
